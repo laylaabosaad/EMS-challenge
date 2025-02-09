@@ -5,6 +5,7 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const full_name = formData.get("full_name");
   const email = formData.get("email");
+  const department = formData.get("department");
   const phone_number = formData.get("phone_number");
   const date_of_birth = formData.get("date_of_birth");
   const gender = formData.get("gender");
@@ -20,10 +21,11 @@ export const action: ActionFunction = async ({ request }) => {
   const db = await getDB();
 
   await db.run(
-    "INSERT INTO employees (full_name, email, phone_number, date_of_birth, gender, nationality, marital_status, current_address, company, job_title, salary, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO employees (full_name, email, department, phone_number, date_of_birth, gender, nationality, marital_status, current_address, company, job_title, salary, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       full_name,
       email,
+      department,
       phone_number,
       date_of_birth,
       gender,
@@ -37,12 +39,21 @@ export const action: ActionFunction = async ({ request }) => {
       end_date,
     ]
   );
-
   return redirect("/employees");
 };
 
 export default function NewEmployeePage() {
   return (
-   <EmployeeForm/>
+    <>
+      <EmployeeForm />
+      <ul>
+        <li>
+          <a href="/employees">Employees</a>
+        </li>
+        <li>
+          <a href="/timesheets">Timesheets</a>
+        </li>
+      </ul>
+    </>
   );
 }

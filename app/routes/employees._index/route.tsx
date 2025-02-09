@@ -26,7 +26,8 @@ export default function EmployeesPage() {
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee: any) => (
+            {employees.length===0 && <div>There are no employees</div>}
+            {employees?.map((employee: any) => (
               <tr
                 key={employee.id}
                 className="text-center border-b cursor-pointer hover:bg-[#dfd9e2] "
@@ -42,7 +43,7 @@ export default function EmployeesPage() {
         </table>
       </div>
 
-      <ul>
+      <ul className=" w-[80%] flex flex-col gap-[10px] py-[1%]">
         <li>
           <a href="/employees/new">New Employee</a>
         </li>

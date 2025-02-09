@@ -1,53 +1,54 @@
-
+// InputFields.tsx
 const InputFields = ({
   label,
-  type = "text",
   name,
   id,
+  type = "text", // Default to "text" type if not provided
+  required,
+  placeholder,
   value,
-  options = [],
-  required = false,
-  pattern,
-  title,
-  placeholder = "",
   onChange,
+  options,
 }) => {
   return (
-    <div className="mb-2 w-full">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+    <div className="flex flex-col">
+      <label htmlFor={id} className="font-bold">
         {label}
       </label>
+
       {type === "select" ? (
         <select
-          className="w-full h-[40px] px-[0.5%] py-2 bg-[white] border border-gray-300 rounded-md shadow-sm"
-          name={name}
           id={id}
-          required={required}
+          name={name}
+          value={value} // Ensure value is set correctly
           onChange={onChange}
+          required={required}
+          className="p-2 border rounded"
         >
-          <option value="">{placeholder}</option>
-          {options.map((option, index) => (
-            <option key={index} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+          <option value="" disabled>
+            {placeholder}
+          </option>
+          {options &&
+            options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
         </select>
       ) : (
         <input
-          className="w-full h-[40px] px-[0.5%] py-2 bg-[white] border border-gray-300 rounded-md shadow-sm"
-          type={type}
-          name={name}
           id={id}
+          name={name}
+          type={type}
           value={value}
-          required={required}
-          pattern={pattern}
-          title={title}
-          placeholder={placeholder}
           onChange={onChange}
+          required={required}
+          placeholder={placeholder}
+          className="p-2 border rounded"
         />
       )}
     </div>
   );
 };
 
-export default InputFields
+export default InputFields;
