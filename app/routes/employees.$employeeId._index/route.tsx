@@ -32,7 +32,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   const db = await getDB();
 
   await db.run(
-    "UPDATE employees SET full_name = ?, email = ?, department=?, phone_number = ?, date_of_birth = ?, gender = ?, nationality = ?, marital_status = ?, current_address = ?, company = ?, job_title = ?, salary = ?, start_date = ?, end_date = ? WHERE id = ?",
+    "UPDATE employees SET full_name = ?, email = ?, department= ?, phone_number = ?, date_of_birth = ?, gender = ?, nationality = ?, marital_status = ?, current_address = ?, company = ?, job_title = ?, salary = ?, start_date = ?, end_date = ? WHERE id = ?",
     [
       full_name,
       email,

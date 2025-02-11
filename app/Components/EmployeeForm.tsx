@@ -7,6 +7,7 @@ export default function EmployeeForm({ employeeData }) {
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
+    department: "",
     phone_number: "",
     date_of_birth: null,
     gender: "",
@@ -15,7 +16,6 @@ export default function EmployeeForm({ employeeData }) {
     current_address: "",
     company: "",
     job_title: "",
-    department: "",
     salary: "",
     start_date: null,
     end_date: null,
@@ -65,7 +65,6 @@ export default function EmployeeForm({ employeeData }) {
               value={formData.email}
               onChange={handleInputChange}
             />
-
             <InputFields
               label="Phone Number"
               type="tel"
@@ -76,7 +75,6 @@ export default function EmployeeForm({ employeeData }) {
               value={formData.phone_number}
               onChange={handleInputChange}
             />
-
             <InputFields
               label="Date of Birth"
               type="date"
