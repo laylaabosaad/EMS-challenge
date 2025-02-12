@@ -1,6 +1,7 @@
 import { useLoaderData, useNavigate } from "react-router";
 import { useState } from "react";
 import { getDB } from "~/db/getDB";
+import CalendarApp from "~/Components/Calendar";
 
 export async function loader() {
   const db = await getDB();
@@ -14,7 +15,14 @@ export async function loader() {
 
 export default function TimesheetsPage() {
   const { timesheetsAndEmployees } = useLoaderData();
- const navigate = useNavigate();
+  const navigate = useNavigate();
+  
+    const calendarEvents = timesheetsAndEmployees.map((timesheet: any) => ({
+      id: timesheet.id,
+      title: `Timesheet for ${timesheet.full_name}`, // Customize title
+      start: timesheet.start_time, // Ensure this is in the right date format
+      end: timesheet.end_time, // Ensure this is in the right date format
+    }));
   return (
     <div className="p-[2%]  flex justify-center items-center flex-col">
       <h1 className="text-[2rem] w-[80%] py-[1%]">All Timesheets</h1>
@@ -79,6 +87,9 @@ export default function TimesheetsPage() {
           <a href="/employees">Employees</a>
         </li>
       </ul>
+      <div className="w-[100%]">
+        <CalendarApp />
+      </div>
     </div>
   );
 }
