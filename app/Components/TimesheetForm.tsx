@@ -3,23 +3,35 @@ import { useLoaderData, Form, useParams } from "react-router";
 import { useState, useEffect } from "react";
 
 export default function TimesheetForm({ timesheetData }) {
-  const { employees } = useLoaderData(); // Fetch employee data
-  console.log("employees in the form", employees);
-  console.log("timesheetData in the form", timesheetData);
+  const { employees } = useLoaderData();
   const [formData, setFormData] = useState({
     employee_id: timesheetData?.employee_id || "",
     start_time: timesheetData?.start_time || "",
     end_time: timesheetData?.end_time || "",
   });
 
-  // Handle input change
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+
+
+
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === "start_time" || name === "end_time") {
+    const formattedValue = value.replace("T", " ") + ":00";
+    console.log("formattedValue", formattedValue);
+    setFormData({
+      ...formData,
+      [name]: formattedValue,
+    });
+  } else {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-  };
+  }
+};
+
+
 
   return (
     <div className="p-[2%] flex justify-center items-center flex-col">

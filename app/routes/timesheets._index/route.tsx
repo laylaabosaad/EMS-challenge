@@ -5,37 +5,53 @@ import CalendarApp from "~/Components/Calendar";
 
 export async function loader() {
   const db = await getDB();
-  
   const timesheetsAndEmployees = await db.all(
     "SELECT timesheets.*, employees.full_name, employees.id AS employee_id FROM timesheets JOIN employees ON timesheets.employee_id = employees.id"
   );
+  timesheetsAndEmployees.forEach((timesheet) => {
+    timesheet.start_time = timesheet.start_time.replace("T", " ");
+    timesheet.end_time = timesheet.end_time.replace("T", " ");
+  });
 
   return { timesheetsAndEmployees };
 }
 
+
 export default function TimesheetsPage() {
   const { timesheetsAndEmployees } = useLoaderData();
   const navigate = useNavigate();
-  
+  const [view, setView] = useState("table");
+
     const calendarEvents = timesheetsAndEmployees.map((timesheet: any) => ({
       id: timesheet.id,
-      title: `Timesheet for ${timesheet.full_name}`, // Customize title
-      start: timesheet.start_time, // Ensure this is in the right date format
-      end: timesheet.end_time, // Ensure this is in the right date format
+      title: `Timesheet for ${timesheet.full_name}`,
+      start: timesheet.start_time,
+      end: timesheet.end_time,
     }));
+  console.log("calendarEvents", calendarEvents);
   return (
     <div className="p-[2%]  flex justify-center items-center flex-col">
       <h1 className="text-[2rem] w-[80%] py-[1%]">All Timesheets</h1>
-      <div className=" my-[15px] w-[80%] flex justify-end gap-[20px]">
-        <button className=" p-[0.5%] border-[1px] border-gray-800">
+      <div className="my-[15px] w-[80%] flex justify-end gap-[20px]">
+        <button
+          className={`p-[0.5%] border-[1px] ${
+            view === "table" ? "bg-gray-300" : "border-gray-800"
+          }`}
+          onClick={() => setView("table")}
+        >
           Table View
         </button>
-        <button className=" p-[0.5%] border-[1px] border-gray-800">
+        <button
+          className={`p-[0.5%] border-[1px] ${
+            view === "calendar" ? "bg-gray-300" : "border-gray-800"
+          }`}
+          onClick={() => setView("calendar")}
+        >
           Calendar View
         </button>
       </div>
       {/* Replace `true` by a variable that is changed when the view buttons are clicked */}
-      {true ? (
+      {view === "table" ? (
         <div className=" w-[80%] ">
           <table className="min-w-full">
             <thead className="bg-gray-800 text-white">
@@ -68,18 +84,13 @@ export default function TimesheetsPage() {
           </table>
         </div>
       ) : (
-        <div>
-          <p>
-            To implement, see{" "}
-            <a href="https://schedule-x.dev/docs/frameworks/react">
-              Schedule X React documentation
-            </a>
-            .
-          </p>
+        <div className="w-[80%]">
+          <CalendarApp events={calendarEvents} />
         </div>
       )}
-      <hr />
+
       <ul className=" w-[80%] flex flex-col gap-[10px] py-[1%]">
+        {console.log("calendarEvents", calendarEvents)}
         <li>
           <a href="/timesheets/new">New Timesheet</a>
         </li>
@@ -87,9 +98,6 @@ export default function TimesheetsPage() {
           <a href="/employees">Employees</a>
         </li>
       </ul>
-      <div className="w-[100%]">
-        <CalendarApp />
-      </div>
     </div>
   );
 }

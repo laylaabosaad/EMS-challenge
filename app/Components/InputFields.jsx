@@ -1,9 +1,9 @@
-// InputFields.tsx
+
 const InputFields = ({
   label,
   name,
   id,
-  type = "text", // Default to "text" type if not provided
+  type = "text",
   required,
   placeholder,
   value,
@@ -20,7 +20,7 @@ const InputFields = ({
         <select
           id={id}
           name={name}
-          value={value} // Ensure value is set correctly
+          value={value} 
           onChange={onChange}
           required={required}
           className="p-2 border rounded"

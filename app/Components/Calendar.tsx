@@ -4,23 +4,14 @@ import { createViewMonthGrid, createViewWeek } from "@schedule-x/calendar";
 import "@schedule-x/theme-default/dist/calendar.css";
 import { createEventModalPlugin } from "@schedule-x/event-modal";
 
-function CalendarApp() {
+function CalendarApp({ events }) {
   const calendar = useCalendarApp({
-    views: [
-      createViewWeek(),
-      createViewMonthGrid()
-    ],
-    events: [
-      {
-        id: 1,
-        title: "Event 1",
-        start: "2025-01-01 00:00",
-        end: "2025-01-01 02:00",
-        description:"testing"
-      },
-    ],
-    selectedDate: "2025-01-01",
-    plugins:[createEventModalPlugin()]
+    views: [createViewWeek(), createViewMonthGrid()],
+    events,
+
+    plugins: [createEventModalPlugin()],
+
+    selectedDate: new Date().toISOString().split("T")[0],
   });
   return (
     <div>

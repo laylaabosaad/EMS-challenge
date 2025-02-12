@@ -6,13 +6,9 @@ import { useLoaderData, redirect, type ActionFunction } from "react-router";
 export const loader = async ({ params }) => {
   const { timesheetId } = params;
   const db = await getDB();
-
-  // Fetch the timesheet
   const timesheet = await db.get("SELECT * FROM timesheets WHERE id = ?", [
     timesheetId,
   ]);
-
-  // Fetch the employees for the select dropdown
   const employees = await db.all("SELECT id, full_name FROM employees");
 
   return { timesheet, employees };
