@@ -10,20 +10,39 @@ export default function TimesheetForm({ timesheetData }) {
     end_time: timesheetData?.end_time || "",
   });
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isFormValid, setIsFormValid] = useState(true);
+  const validateTimes = (start, end) => {
+    const startTime = new Date(start);
+    const endTime = new Date(end);
 
+    if (startTime >= endTime) {
+      setErrorMessage("Start time must be before the end time.");
+      setIsFormValid(false);
+    } else {
+      setErrorMessage("");
+      setIsFormValid(true);
+    }
+  };
 
 
 const handleInputChange = (e) => {
   const { name, value } = e.target;
 
-  if (name === "start_time" || name === "end_time") {
-    const formattedValue = value.replace("T", " ") + ":00";
-    console.log("formattedValue", formattedValue);
-    setFormData({
-      ...formData,
-      [name]: formattedValue,
-    });
-  } else {
+let updatedFormData = { ...formData, [name]: value };
+
+    if (name === "start_time" || name === "end_time") {
+      const formattedValue = value.replace("T", " ") + ":00";
+      updatedFormData = { ...formData, [name]: formattedValue };
+
+      // Perform validation after both start_time and end_time are updated
+      if (name === "start_time") {
+        validateTimes(formattedValue, formData.end_time);
+      } else if (name === "end_time") {
+        validateTimes(formData.start_time, formattedValue);
+      }
+       setFormData(updatedFormData);
+    }else {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -74,8 +93,10 @@ const handleInputChange = (e) => {
             required
           />
         </div>
+        {errorMessage && <div className="text-red-500">{errorMessage}</div>}
         <div className="text-center flex">
           <button
+            disabled={!!errorMessage}
             type="submit"
             className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
           >
