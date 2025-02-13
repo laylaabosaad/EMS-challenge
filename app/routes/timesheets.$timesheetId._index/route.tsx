@@ -33,7 +33,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export default function TimesheetPage() {
   const { timesheet } = useLoaderData();
-  console.log("timesheet withing the TimesheetPage", timesheet);
   return (
     <>
       <TimesheetForm timesheetData={timesheet} />

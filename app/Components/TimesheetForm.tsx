@@ -1,6 +1,6 @@
 import InputFields from "~/Components/InputFields";
-import { useLoaderData, Form, useParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useLoaderData, Form } from "react-router";
+import { useState } from "react";
 
 export default function TimesheetForm({ timesheetData }) {
   const { employees } = useLoaderData();
@@ -12,17 +12,14 @@ export default function TimesheetForm({ timesheetData }) {
   });
 
   const [errorMessage, setErrorMessage] = useState("");
-  const [isFormValid, setIsFormValid] = useState(true);
   const validateTimes = (start, end) => {
     const startTime = new Date(start);
     const endTime = new Date(end);
 
     if (startTime >= endTime) {
       setErrorMessage("Start time must be before the end time.");
-      setIsFormValid(false);
     } else {
       setErrorMessage("");
-      setIsFormValid(true);
     }
   };
 
@@ -35,7 +32,6 @@ export default function TimesheetForm({ timesheetData }) {
       const formattedValue = value.replace("T", " ") + ":00";
       updatedFormData = { ...formData, [name]: formattedValue };
 
-      // Perform validation after both start_time and end_time are updated
       if (name === "start_time") {
         validateTimes(formattedValue, formData.end_time);
       } else if (name === "end_time") {

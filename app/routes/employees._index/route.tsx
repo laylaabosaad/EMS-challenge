@@ -13,8 +13,6 @@ export default function EmployeesPage() {
   const { employees } = useLoaderData();
   const [search, setSearch] = useState("");
   const [department, setDepartment] = useState("");
-  const [sortField, setSortField] = useState("id");
-  const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const employeesPerPage = 5;
 
@@ -29,11 +27,9 @@ export default function EmployeesPage() {
   });
 
   const sortedEmployees = [...filteredEmployees].sort((a, b) => {
-    const fieldA = a[sortField]?.toString().toLowerCase() || "";
-    const fieldB = b[sortField]?.toString().toLowerCase() || "";
-    return sortOrder === "asc"
-      ? fieldA.localeCompare(fieldB, undefined, { numeric: true })
-      : fieldB.localeCompare(fieldA, undefined, { numeric: true });
+    const fieldA = a["id"]?.toString().toLowerCase() || "";
+    const fieldB = b["asc"]?.toString().toLowerCase() || "";
+    return fieldA.localeCompare(fieldB, undefined, { numeric: true });
   });
 
   const indexOfLastEmployee = currentPage * employeesPerPage;
@@ -55,15 +51,6 @@ export default function EmployeesPage() {
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
     }
   };
 
@@ -112,10 +99,6 @@ export default function EmployeesPage() {
           data={paginatedEmployees}
           columns={columns}
           onRowClick={handleRowClick}
-          initialSortField={sortField}
-          onSort={handleSort} // Pass sorting function to TableComponent
-          sortField={sortField} // Pass current sort field
-          sortOrder={sortOrder} // Pass current sort order
         />
       </div>
 

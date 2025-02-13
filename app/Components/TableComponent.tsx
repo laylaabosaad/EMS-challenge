@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-function TableComponent({ data, columns, onRowClick, initialSortField }) {
-  const [sortField, setSortField] = useState(initialSortField || "");
+function TableComponent({ data, columns, onRowClick }) {
+  const [sortField, setSortField] = useState("id" || "");
   const [sortOrder, setSortOrder] = useState("asc");
 
   const handleSort = (field) => {

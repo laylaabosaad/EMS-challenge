@@ -1,6 +1,6 @@
 import { Form, useParams } from "react-router";
-import InputFields from "~/Components/InputFields";
 import { useState, useEffect } from "react";
+import InputFields from "./InputFields";
 
 export default function EmployeeForm({ employeeData }) {
   const { employeeId } = useParams();
@@ -14,7 +14,7 @@ export default function EmployeeForm({ employeeData }) {
     marital_status: "",
     current_address: "",
     company: "",
-    department:"",
+    department: "",
     job_title: "",
     salary: "",
     start_date: null,
@@ -196,8 +196,8 @@ export default function EmployeeForm({ employeeData }) {
             <InputFields
               label="Start Date"
               type="date"
-              name="start-date"
-              id="start-date"
+              name="start_date"
+              id="start_date"
               value={formData.start_date}
               onChange={handleInputChange}
               required
@@ -206,8 +206,8 @@ export default function EmployeeForm({ employeeData }) {
             <InputFields
               label="End Date"
               type="date"
-              name="end-date"
-              id="end-date"
+              name="end_date"
+              id="end_date"
               value={formData.end_date}
               onChange={handleInputChange}
               required

@@ -26,8 +26,8 @@ export const action: ActionFunction = async ({ request, params }) => {
   const department = formData.get("department");
   const job_title = formData.get("job_title");
   const salary = formData.get("salary");
-  const start_date = formData.get("start-date");
-  const end_date = formData.get("end-date");
+  const start_date = formData.get("start_date");
+  const end_date = formData.get("end_date");
 
   const db = await getDB();
 

@@ -4,7 +4,6 @@ import { getDB } from "~/db/getDB";
 import CalendarApp from "~/Components/Calendar";
 import TableComponent from "~/Components/TableComponent";
 
-
 export async function loader() {
   const db = await getDB();
 
@@ -36,58 +35,34 @@ export default function TimesheetsPage() {
     description: timesheet.summary,
   }));
 
-    const filteredTimesheets = timesheetsAndEmployees.filter((timesheet) => {
-      const searchValue = search.toLowerCase();
-      const matchesSearch =
-        timesheet.full_name.toLowerCase().includes(searchValue) ||
-        timesheet.id.toString().includes(searchValue);
+  const filteredTimesheets = timesheetsAndEmployees.filter((timesheet) => {
+    const searchValue = search.toLowerCase();
+    const matchesSearch =
+      timesheet.full_name.toLowerCase().includes(searchValue) ||
+      timesheet.id.toString().includes(searchValue);
 
-      const matchesEmployee =
-        selectedEmployee === "" ||
-        timesheet.employee_id.toString() === selectedEmployee;
+    const matchesEmployee =
+      selectedEmployee === "" ||
+      timesheet.employee_id.toString() === selectedEmployee;
 
-      return matchesSearch && matchesEmployee;
-    });
+    return matchesSearch && matchesEmployee;
+  });
 
-    const columns = [
-      { label: "Timesheet #", field: "id" },
-      { label: "Employee", field: "full_name" },
-      { label: "Start Time", field: "start_time" },
-      { label: "End Time", field: "end_time" },
-      { label: "Summary", field: "summary" },
-    ];
+  const columns = [
+    { label: "Timesheet #", field: "id" },
+    { label: "Employee", field: "full_name" },
+    { label: "Start Time", field: "start_time" },
+    { label: "End Time", field: "end_time" },
+    { label: "Summary", field: "summary" },
+  ];
 
-    const handleRowClick = (timesheet) => {
-      navigate(`/timesheets/${timesheet.id}`);
-    };
+  const handleRowClick = (timesheet) => {
+    navigate(`/timesheets/${timesheet.id}`);
+  };
 
   return (
     <div className="p-[2%] flex justify-center items-center flex-col">
       <h1 className="text-[2rem] w-[80%] py-[1%]">All Timesheets</h1>
-
-     
-      <div className=" w-[80%] flex justify-between gap-4">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Employee name or Timesheet #"
-          className="p-2 mb-4 border rounded"
-        />
-
-        <select
-          value={selectedEmployee}
-          onChange={(e) => setSelectedEmployee(e.target.value)}
-          className="p-2 mb-4 border rounded"
-        >
-          <option value="">All Employees</option>
-          {employees.map((employee: any) => (
-            <option key={employee.id} value={employee.id}>
-              {employee.full_name}
-            </option>
-          ))}
-        </select>
-      </div>
 
       <div className="my-[15px] w-[80%] flex justify-end gap-[20px]">
         <button
@@ -109,14 +84,37 @@ export default function TimesheetsPage() {
       </div>
 
       {view === "table" ? (
-        <div className="w-[80%]">
-          <TableComponent
-            data={filteredTimesheets}
-            columns={columns}
-            onRowClick={handleRowClick}
-            initialSortField="id"
-          />
-        </div>
+        <>
+          <div className=" w-[80%] flex justify-between gap-4">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Employee name or Timesheet #"
+              className="p-2 mb-4 border rounded"
+            />
+
+            <select
+              value={selectedEmployee}
+              onChange={(e) => setSelectedEmployee(e.target.value)}
+              className="p-2 mb-4 border rounded"
+            >
+              <option value="">All Employees</option>
+              {employees.map((employee: any) => (
+                <option key={employee.id} value={employee.id}>
+                  {employee.full_name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="w-[80%]">
+            <TableComponent
+              data={filteredTimesheets}
+              columns={columns}
+              onRowClick={handleRowClick}
+            />
+          </div>
+        </>
       ) : (
         <div className="w-[80%]">
           <CalendarApp events={calendarEvents} />
