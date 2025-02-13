@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router";
+import TableComponent from "~/Components/TableComponent";
 import { getDB } from "~/db/getDB";
 
 export async function loader() {
@@ -11,29 +12,20 @@ export async function loader() {
 export default function EmployeesPage() {
   const { employees } = useLoaderData();
   const [search, setSearch] = useState("");
-  const [department, setDepartment] = useState(""); 
-  const [sortField, setSortField] = useState(""); 
-  const [sortOrder, setSortOrder] = useState("asc"); 
-  const [currentPage, setCurrentPage] = useState(1); 
-  const employeesPerPage = 5; 
+  const [department, setDepartment] = useState("");
+  const [sortField, setSortField] = useState("id");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const employeesPerPage = 5;
 
-  const handleSort = (field: any) => {
-    if (sortField === field) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortOrder("asc");
-    }
-  };
-
-  const filteredEmployees = employees.filter((employee: any) => {
+  const filteredEmployees = employees.filter((employee) => {
     const searchValue = search.toLowerCase();
     const matchesSearch =
       employee.full_name.toLowerCase().includes(searchValue) ||
       employee.id.toString().includes(searchValue);
     const matchesDepartment =
       department === "" || employee.department === department;
-    return matchesSearch && matchesDepartment
+    return matchesSearch && matchesDepartment;
   });
 
   const sortedEmployees = [...filteredEmployees].sort((a, b) => {
@@ -46,14 +38,14 @@ export default function EmployeesPage() {
 
   const indexOfLastEmployee = currentPage * employeesPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - employeesPerPage;
-  const currentEmployees = sortedEmployees.slice(
+  const paginatedEmployees = sortedEmployees.slice(
     indexOfFirstEmployee,
     indexOfLastEmployee
   );
-
   const totalPages = Math.ceil(filteredEmployees.length / employeesPerPage);
 
   const navigate = useNavigate();
+
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -66,14 +58,34 @@ export default function EmployeesPage() {
     }
   };
 
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  const columns = [
+    { label: "Employee #", field: "id" },
+    { label: "Name", field: "full_name" },
+    { label: "Department", field: "department" },
+    { label: "Phone Number", field: "phone_number" },
+  ];
+
+  const handleRowClick = (employee) => {
+    navigate(`/employees/${employee.id}`);
+  };
+
   return (
     <div className="p-[2%] flex justify-center items-center flex-col">
       <h1 className="text-[2rem] w-[80%] py-[1%]">All Employees</h1>
 
-      <div className=" w-[80%] flex justify-between">
+      <div className="w-[80%] flex justify-between">
         <input
           type="text"
-          placeholder="Employee name or #"
+          placeholder="Search employees by name or id"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="p-2 mb-4 border rounded"
@@ -94,67 +106,20 @@ export default function EmployeesPage() {
           <option value="others">Others</option>
         </select>
       </div>
+
       <div className="w-[80%]">
-        <table className="min-w-full">
-          <thead className="bg-gray-800 text-white">
-            <tr className="bg-green">
-              <th
-                className="w-1/4 py-2 cursor-pointer"
-                onClick={() => handleSort("id")}
-              >
-                Employee #
-                {sortField === "id" && (sortOrder === "asc" ? " ↑" : " ↓")}
-              </th>
-              <th
-                className="w-1/4 py-2 cursor-pointer"
-                onClick={() => handleSort("full_name")}
-              >
-                Name
-                {sortField === "full_name" &&
-                  (sortOrder === "asc" ? " ↑" : " ↓")}
-              </th>
-              <th
-                className="w-1/4 py-2 cursor-pointer"
-                onClick={() => handleSort("department")}
-              >
-                Department
-                {sortField === "department" &&
-                  (sortOrder === "asc" ? " ↑" : " ↓")}
-              </th>
-              <th
-                className="w-1/4 py-2 cursor-pointer"
-                onClick={() => handleSort("phone_number")}
-              >
-                Phone Number
-                {sortField === "phone_number" &&
-                  (sortOrder === "asc" ? " ↑" : " ↓")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentEmployees.length === 0 && (
-              <tr>
-                <td className="text-center py-4" colSpan={4}>
-                  No employees found
-                </td>
-              </tr>
-            )}
-            {currentEmployees.map((employee: any) => (
-              <tr
-                key={employee.id}
-                className="text-center border-b cursor-pointer hover:bg-[#dfd9e2]"
-                onClick={() => navigate(`/employees/${employee.id}`)}
-              >
-                <td className="py-2">{employee.id}</td>
-                <td className="py-2">{employee.full_name}</td>
-                <td className="py-2">{employee.department}</td>
-                <td className="py-2">{employee.phone_number}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <TableComponent
+          data={paginatedEmployees}
+          columns={columns}
+          onRowClick={handleRowClick}
+          initialSortField={sortField}
+          onSort={handleSort} // Pass sorting function to TableComponent
+          sortField={sortField} // Pass current sort field
+          sortOrder={sortOrder} // Pass current sort order
+        />
       </div>
 
+      {/* Pagination Controls */}
       <div className="w-[80%] flex justify-between mt-4">
         <button
           onClick={handlePreviousPage}
@@ -178,13 +143,16 @@ export default function EmployeesPage() {
           Next
         </button>
       </div>
-
       <ul className="w-[80%] flex flex-col gap-[10px] py-[1%]">
         <li>
-          <a href="/employees/new">New Employee</a>
+          <a href="/employees/new" className="text-blue-500">
+            New Employee
+          </a>
         </li>
         <li>
-          <a href="/timesheets/">Timesheets</a>
+          <a href="/timesheets/" className="text-blue-500">
+            Timesheets
+          </a>
         </li>
       </ul>
     </div>

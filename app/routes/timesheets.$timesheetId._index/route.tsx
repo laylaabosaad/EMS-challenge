@@ -1,7 +1,6 @@
-import TimesheetForm from "~/Components/TimesheetForm"
+import TimesheetForm from "~/Components/TimesheetForm";
 import { getDB } from "~/db/getDB";
 import { useLoaderData, redirect, type ActionFunction } from "react-router";
-
 
 export const loader = async ({ params }) => {
   const { timesheetId } = params;
@@ -13,7 +12,6 @@ export const loader = async ({ params }) => {
 
   return { timesheet, employees };
 };
-
 
 export const action: ActionFunction = async ({ request, params }) => {
   const { timesheetId } = params;
@@ -37,13 +35,21 @@ export default function TimesheetPage() {
   const { timesheet } = useLoaderData();
   console.log("timesheet withing the TimesheetPage", timesheet);
   return (
-    <div>
+    <>
       <TimesheetForm timesheetData={timesheet} />
-      <ul>
-        <li><a href="/timesheets">Timesheets</a></li>
-        <li><a href="/timesheets/new">New Timesheet</a></li>
-        <li><a href="/employees/">Employees</a></li>
-      </ul>
-    </div>
-  )
+      <div className=" flex justify-center">
+        <ul className="w-[80%] flex flex-col gap-[10px] px-[2%] pb-[1%]">
+          <li className="text-blue-500">
+            <a href="/timesheets">Timesheets</a>
+          </li>
+          <li className="text-blue-500">
+            <a href="/timesheets/new">New Timesheet</a>
+          </li>
+          <li className="text-blue-500">
+            <a href="/employees/">Employees</a>
+          </li>
+        </ul>
+      </div>
+    </>
+  );
 }

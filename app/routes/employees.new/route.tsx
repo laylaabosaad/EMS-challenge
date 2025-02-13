@@ -39,7 +39,7 @@ export const action: ActionFunction = async ({ request }) => {
       end_date,
     ]
   );
-console.log("it went to the addition not edittt")
+  console.log("it went to the addition not edittt");
   return redirect("/employees");
 };
 
@@ -47,14 +47,16 @@ export default function NewEmployeePage() {
   return (
     <>
       <EmployeeForm />
-      <ul>
-        <li>
-          <a href="/employees">Employees</a>
-        </li>
-        <li>
-          <a href="/timesheets">Timesheets</a>
-        </li>
-      </ul>
+      <div className=" flex justify-center">
+        <ul className="w-[80%] flex flex-col gap-[10px] px-[2%] pb-[1%]">
+          <li className="text-blue-500">
+            <a href="/employees">Employees</a>
+          </li>
+          <li className="text-blue-500">
+            <a href="/timesheets">Timesheets</a>
+          </li>
+        </ul>
+      </div>
     </>
   );
 }

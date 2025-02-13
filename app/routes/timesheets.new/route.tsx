@@ -35,15 +35,16 @@ export default function NewTimesheetPage() {
   return (
     <>
       <TimesheetForm />
-
-      <ul>
-        <li>
-          <a href="/timesheets">Timesheets</a>
-        </li>
-        <li>
-          <a href="/employees">Employees</a>
-        </li>
-      </ul>
+      <div className=" flex justify-center">
+        <ul className="w-[80%] flex flex-col gap-[10px] px-[2%] pb-[1%]">
+          <li className="text-blue-500">
+            <a href="/timesheets">Timesheets</a>
+          </li>
+          <li className="text-blue-500">
+            <a href="/employees">Employees</a>
+          </li>
+        </ul>
+      </div>
     </>
   );
 }
