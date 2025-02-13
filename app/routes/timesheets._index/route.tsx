@@ -27,6 +27,7 @@ export default function TimesheetsPage() {
       title: `Timesheet for ${timesheet.full_name}`,
       start: timesheet.start_time,
       end: timesheet.end_time,
+      description:timesheet.summary,
     }));
   console.log("calendarEvents", calendarEvents);
   return (
@@ -56,10 +57,11 @@ export default function TimesheetsPage() {
           <table className="min-w-full">
             <thead className="bg-gray-800 text-white">
               <tr className="bg-green">
-                <th className="w-1/4 py-2">Timesheet #</th>
-                <th className="w-1/4 py-2">Employee</th>
-                <th className="w-1/4 py-2">Start Time:</th>
-                <th className="w-1/4 py-2">End Time:</th>
+                <th className="w-1/5 py-2">Timesheet #</th>
+                <th className="w-1/5 py-2">Employee</th>
+                <th className="w-1/5 py-2">Start Time:</th>
+                <th className="w-1/5 py-2">End Time:</th>
+                <th className="w-1/5 py-2">Summary</th>
               </tr>
             </thead>
             <tbody>
@@ -78,6 +80,7 @@ export default function TimesheetsPage() {
                   </td>
                   <td className="py-2">{timesheet.start_time}</td>
                   <td className="py-2">{timesheet.end_time}</td>
+                  <td className="py-2">{timesheet.summary}</td>
                 </tr>
               ))}
             </tbody>

@@ -8,6 +8,7 @@ export default function TimesheetForm({ timesheetData }) {
     employee_id: timesheetData?.employee_id || "",
     start_time: timesheetData?.start_time || "",
     end_time: timesheetData?.end_time || "",
+    summary: timesheetData?.summary || "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,11 +26,10 @@ export default function TimesheetForm({ timesheetData }) {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-const handleInputChange = (e) => {
-  const { name, value } = e.target;
-
-let updatedFormData = { ...formData, [name]: value };
+    let updatedFormData = { ...formData, [name]: value };
 
     if (name === "start_time" || name === "end_time") {
       const formattedValue = value.replace("T", " ") + ":00";
@@ -41,16 +41,14 @@ let updatedFormData = { ...formData, [name]: value };
       } else if (name === "end_time") {
         validateTimes(formData.start_time, formattedValue);
       }
-       setFormData(updatedFormData);
-    }else {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  }
-};
-
-
+      setFormData(updatedFormData);
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
 
   return (
     <div className="p-[2%] flex justify-center items-center flex-col">
@@ -89,6 +87,15 @@ let updatedFormData = { ...formData, [name]: value };
             name="end_time"
             id="end_time"
             value={formData.end_time}
+            onChange={handleInputChange}
+            required
+          />
+          <InputFields
+            label="Summary"
+            type="text"
+            name="summary"
+            id="summary"
+            value={formData.summary}
             onChange={handleInputChange}
             required
           />

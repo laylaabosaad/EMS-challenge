@@ -21,12 +21,13 @@ export const action: ActionFunction = async ({ request, params }) => {
   const employee_id = formData.get("employee_id");
   const start_time = formData.get("start_time");
   const end_time = formData.get("end_time");
+  const summary = formData.get("summary");
 
   const db = await getDB();
 
   await db.run(
-    "UPDATE timesheets SET employee_id=?, start_time = ?, end_time = ? WHERE id = ?",
-    [employee_id, start_time, end_time, timesheetId]
+    "UPDATE timesheets SET employee_id=?, start_time = ?, end_time = ?, summary = ? WHERE id = ?",
+    [employee_id, start_time, end_time, summary, timesheetId]
   );
 
   return redirect("/timesheets");
