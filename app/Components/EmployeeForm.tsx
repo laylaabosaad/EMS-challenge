@@ -14,6 +14,7 @@ export default function EmployeeForm({ employeeData }) {
     marital_status: "",
     current_address: "",
     company: "",
+    department:"",
     job_title: "",
     salary: "",
     start_date: null,
@@ -149,6 +150,26 @@ export default function EmployeeForm({ employeeData }) {
               required
               placeholder="Enter company"
               value={formData.company}
+              onChange={handleInputChange}
+            />
+            <InputFields
+              label="Department"
+              type="select"
+              name="department"
+              id="department"
+              required
+              placeholder="Select Department"
+              options={[
+                { value: "finance", label: "Finance" },
+                { value: "sales", label: "Sales" },
+                { value: "marketing", label: "Marketing" },
+                {
+                  value: "informationTechnology",
+                  label: "Information Technology (IT)",
+                },
+                { value: "others", label: "others" },
+              ]}
+              value={formData.department}
               onChange={handleInputChange}
             />
 

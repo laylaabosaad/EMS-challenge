@@ -12,6 +12,7 @@ export const action: ActionFunction = async ({ request }) => {
   const marital_status = formData.get("marital_status");
   const current_address = formData.get("current_address");
   const company = formData.get("company");
+  const department = formData.get("department");
   const job_title = formData.get("job_title");
   const salary = formData.get("salary");
   const start_date = formData.get("start-date");
@@ -20,7 +21,7 @@ export const action: ActionFunction = async ({ request }) => {
   const db = await getDB();
 
   await db.run(
-    "INSERT INTO employees (full_name, email, phone_number, date_of_birth, gender, nationality, marital_status, current_address, company, job_title, salary, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO employees (full_name, email, phone_number, date_of_birth, gender, nationality, marital_status, current_address, company, department, job_title, salary, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       full_name,
       email,
@@ -31,6 +32,7 @@ export const action: ActionFunction = async ({ request }) => {
       marital_status,
       current_address,
       company,
+      department,
       job_title,
       salary,
       start_date,

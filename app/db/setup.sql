@@ -28,6 +28,7 @@ CREATE TABLE employees (
     marital_status TEXT NOT NULL,
     current_address TEXT NOT NULL,
     company TEXT NOT NULL,
+    department TEXT NOT NULL,
     job_title TEXT NOT NULL,
     salary INTEGER NOT NULL,
     start_date DATETIME NOT NULL,
