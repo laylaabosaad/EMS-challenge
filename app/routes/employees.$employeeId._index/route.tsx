@@ -16,7 +16,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();
   const full_name = formData.get("full_name");
   const email = formData.get("email");
-  const department = formData.get("department");
   const phone_number = formData.get("phone_number");
   const date_of_birth = formData.get("date_of_birth");
   const gender = formData.get("gender");
@@ -32,11 +31,10 @@ export const action: ActionFunction = async ({ request, params }) => {
   const db = await getDB();
 
   await db.run(
-    "UPDATE employees SET full_name = ?, email = ?, department= ?, phone_number = ?, date_of_birth = ?, gender = ?, nationality = ?, marital_status = ?, current_address = ?, company = ?, job_title = ?, salary = ?, start_date = ?, end_date = ? WHERE id = ?",
+    "UPDATE employees SET full_name = ?, email = ?, phone_number = ?, date_of_birth = ?, gender = ?, nationality = ?, marital_status = ?, current_address = ?, company = ?, job_title = ?, salary = ?, start_date = ?, end_date = ? WHERE id = ?",
     [
       full_name,
       email,
-      department,
       phone_number,
       date_of_birth,
       gender,

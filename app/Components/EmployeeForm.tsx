@@ -7,7 +7,6 @@ export default function EmployeeForm({ employeeData }) {
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
-    department: "",
     phone_number: "",
     date_of_birth: null,
     gender: "",
@@ -162,17 +161,6 @@ export default function EmployeeForm({ employeeData }) {
               value={formData.job_title}
               onChange={handleInputChange}
             />
-
-            <InputFields
-              label="Department"
-              name="department"
-              id="department"
-              required
-              placeholder="Enter department"
-              value={formData.department}
-              onChange={handleInputChange}
-            />
-
             <InputFields
               label="Salary"
               type="number"
