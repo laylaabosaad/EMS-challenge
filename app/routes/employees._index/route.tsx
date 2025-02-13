@@ -73,7 +73,7 @@ export default function EmployeesPage() {
       <div className=" w-[80%] flex justify-between">
         <input
           type="text"
-          placeholder="Search employees by name or id"
+          placeholder="Employee name or #"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="p-2 mb-4 border rounded"
